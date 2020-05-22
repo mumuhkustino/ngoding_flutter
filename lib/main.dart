@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -56,54 +57,28 @@ class _MyAppState extends State<MyApp> {
       operator(number1, number2);
   //doMathOperator(1, 2, (a, b) => a * b);
 
-  List<Widget> listWidget = [];
-  int counter = 0;
-
-  /* _MyAppState() {
-    for (int i = 0; i < counter; i++) {
-      listWidget.add(Text(
-        "Data ke-" + i.toString(),
-        style: TextStyle(fontSize: 36),
-      ));
-    }
-  } */
+  Random random = Random();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(
-        title: Text("Anonymous Method"),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              RaisedButton(
-                child: Text("Add List"),
-                onPressed: () {
-                  setState(() {
-                    counter++;
-                    listWidget.add(Text("Data ke-" + counter.toString(),
-                        style: TextStyle(fontSize: 36)));
-                  });
+            appBar: AppBar(
+              title: Text("Anonymous Method"),
+            ),
+            body: Center(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {});
                 },
+                child: AnimatedContainer(
+                  color: Color.fromARGB(255, random.nextInt(256),
+                      random.nextInt(256), random.nextInt(256)),
+                  duration: Duration(seconds: 1),
+                  width: 50.0 + random.nextInt(101),
+                  height: 50.0 + random.nextInt(101),
+                ),
               ),
-              RaisedButton(
-                child: Text("Remove List"),
-                onPressed: () {
-                  setState(() {
-                    counter--;
-                    listWidget.removeLast();
-                  });
-                },
-              )
-            ],
-          ),
-          Column(children: listWidget)
-        ],
-      ),
-    ));
+            )));
   }
 }
