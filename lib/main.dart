@@ -66,43 +66,102 @@ class _MyAppState extends State<MyApp> {
             appBar: AppBar(
               title: Text("Anonymous Method"),
             ),
-            body: Column(
+            body: Stack(
               children: <Widget>[
-                Flexible(
-                  flex: 1,
-                  child: Row(children: <Widget>[
+                Column(
+                  children: <Widget>[
                     Flexible(
-                      flex: 1,
-                      child: Container(
-                          margin: EdgeInsets.all(5), color: 
-                          Colors.blueAccent),
+                      child: Row(
+                        children: <Widget>[
+                          Flexible(
+                              child: Container(
+                            color: Colors.white,
+                          )),
+                          Flexible(
+                              child: Container(
+                            color: Colors.grey,
+                          )),
+                        ],
+                      ),
                     ),
                     Flexible(
-                      flex: 1,
-                      child: Container(
-                          margin: EdgeInsets.all(5), 
-                          color: Colors.cyanAccent),
+                      child: Row(
+                        children: <Widget>[
+                          Flexible(
+                              child: Container(
+                            color: Colors.grey,
+                          )),
+                          Flexible(
+                              child: Container(
+                            color: Colors.white,
+                          )),
+                        ],
+                      ),
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                          margin: EdgeInsets.all(5),
-                          color: Colors.indigoAccent),
-                    ),
-                  ]),
+                  ],
                 ),
-                Flexible(
-                    flex: 2,
-                    child: Container(
-                      margin: EdgeInsets.all(5),
-                      color: Colors.blueGrey,
-                    )),
-                Flexible(
-                    flex: 1,
-                    child: Container(
-                      margin: EdgeInsets.all(5),
-                      color: Colors.blueAccent,
-                    ))
+                ListView(
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "This text on second layer.",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(fontSize: 36),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "This text on second layer.",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(fontSize: 36),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "This text on second layer.",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(fontSize: 36),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "This text on second layer.",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(fontSize: 36),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "This text on second layer.",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(fontSize: 36),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "This text on second layer.",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(fontSize: 36),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                Align(
+                    alignment: Alignment(0, 0.8),
+                    child: RaisedButton(
+                        child: Text("Button"),
+                        color: Colors.amberAccent,
+                        onPressed: () {}))
               ],
             )));
   }
