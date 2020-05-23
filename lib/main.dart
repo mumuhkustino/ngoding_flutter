@@ -1,59 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+// import 'package:qrscan/qrscan.dart' as scanner;
+// import 'package:simple_permissions/simple_permissions.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String data = "QR Code Data";
+
   @override
   Widget build(BuildContext context) {
-    TabBar tabBar = TabBar(
-      indicator: BoxDecoration(
-          color: Colors.pink,
-          border: Border(
-            top: BorderSide(color: Colors.purple, width: 5),
-          )),
-      tabs: <Widget>[
-        /* Tab(
-                  icon: Icon(Icons.comment),
-                  text: "Comments",
-                ),
-                Tab(
-                  child: Image(image: AssetImage("assets/logo.png")),
-                ), */
-        Tab(
-          icon: Icon(Icons.computer),
-        ),
-        Tab(
-          text: "News",
-        ),
-      ],
-    );
-
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            appBar: AppBar(
-                title: Text("Flutter 27 28"),
-                bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(tabBar.preferredSize.height),
-                    child:
-                        Container(color: Colors.amberAccent, child: tabBar))),
-            body: TabBarView(children: <Widget>[
-              Center(
-                child: Text("Tab 1"),
+      home: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Center(
+              child: QrImage(
+                version: 6,
+                backgroundColor: Colors.limeAccent,
+                foregroundColor: Colors.black,
+                errorCorrectionLevel: QrErrorCorrectLevel.M,
+                padding: EdgeInsets.all(30),
+                size: 300,
+                data: "Test Baca QR Code",
               ),
-              Center(
-                child: Text("Tab 2"),
-              ),
-              /* Center(
-                child: Text("Tab 1"),
-              ),
-              Center(
-                child: Text("Tab 2"),
-              ), */
-            ]),
-          )),
+            ),
+            Text(
+              data,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            RaisedButton(
+                child: Text("Scan QR Code"),
+                onPressed: () {
+                  // scanQR();
+                })
+          ],
+        ),
+      ),
     );
   }
+
+  /* void scanQR() async {
+    bool result = await SimplePermissions.checkPermission(Permission.Camera);
+    PermissionStatus status = PermissionStatus.notDetermined;
+    if (!result) {
+      status = await SimplePermissions.requestPermission(Permission.Camera);
+    }
+
+    if (result || status == PermissionStatus.authorized) {
+      String scanResult = await scanner.scan();
+      setState(() {
+        data = scanResult;
+      });
+    }
+  } */
+
+  // void scanQR() async {
+  //   final  PermissionHandler _permissionHandler = PermissionHandler();
+  //   var result =
+  //       await _permissionHandler.requestPermissions([PermissionGroup.camera]);
+  //   if (result[PermissionGroup.camera] == PermissionStatus.granted) {
+  //     String scanResult = await scan();
+  //     setState(() {
+  //       data = scanResult;
+  //     });
+  //   }
+  // }
 }
