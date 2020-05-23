@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'dart:math';
 
-// void main() {
-//   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-//       .then((_) {
-//     runApp(MyApp());
-//   });
-// }
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -20,194 +14,218 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatelessWidget {
-  double getBigDiameter(BuildContext context) =>
-      MediaQuery.of(context).size.width * 2 / 3;
-  double getSmallDiameter(BuildContext context) =>
-      MediaQuery.of(context).size.width * 7 / 8;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0XFFEEEEEE),
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            right: -getBigDiameter(context) / 3,
-            top: -getBigDiameter(context) / 3,
+      backgroundColor: Colors.lightBlue[50],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(200),
+        child: AppBar(
+          backgroundColor: Colors.amber,
+          flexibleSpace: Positioned(
+            bottom: 0,
+            right: 0,
             child: Container(
-              width: getBigDiameter(context),
-              height: getBigDiameter(context),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                      colors: [Color(0XFFB226B2), Color(0XFFFF6DA7)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter)),
-            ),
-          ),
-          Positioned(
-            left: -getSmallDiameter(context) / 4,
-            top: -getSmallDiameter(context) / 4,
-            child: Container(
-              child: Center(
-                  child: Text(
-                "dribble",
-                style: TextStyle(fontSize: 30, color: Colors.white),
-              )),
-              width: getSmallDiameter(context),
-              height: getSmallDiameter(context),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                      colors: [Color(0XFFB226B2), Color(0XFFFF4891)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter)),
-            ),
-          ),
-          Positioned(
-            right: -getBigDiameter(context) / 2,
-            bottom: -getBigDiameter(context) / 2,
-            child: Container(
-              width: getBigDiameter(context),
-              height: getBigDiameter(context),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: Color(0XFFF3E9EE)),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
+              margin: EdgeInsets.all(20),
+              child: Text(
+                "Flutter 25 26 30",
+                style: TextStyle(
                     color: Colors.white,
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  margin: EdgeInsets.fromLTRB(20, 300, 20, 10),
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 25),
-                  child: Column(
-                    children: <Widget>[
-                      TextField(
-                        decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.email,
-                              color: Color(0XFFFF4891),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0XFFFF4891))),
-                            labelText: "Email: ",
-                            labelStyle: TextStyle(color: Color(0XFFFF4891))),
-                      ),
-                      TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.vpn_key,
-                              color: Color(0XFFFF4891),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0XFFFF4891))),
-                            labelText: "Password: ",
-                            labelStyle: TextStyle(color: Color(0XFFFF4891))),
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 20, 20),
-                    child: Text(
-                      "FORGOT PASSWORD",
-                      style: TextStyle(color: Color(0XFFFF4891), fontSize: 11),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(20, 0, 20, 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: 40,
-                        child: Container(
-                          child: Material(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(20),
-                              splashColor: Colors.grey,
-                              onTap: () {},
-                              child: Center(
-                                child: Text(
-                                  "SIGN IN",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              ),
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Color(0XFFB226B2),
-                                    Color(0XFFFF4891)
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter)),
-                        ),
-                      ),
-                      FloatingActionButton(
-                        onPressed: () {},
-                        mini: true,
-                        elevation: 0,
-                        child: Image(
-                          image: NetworkImage(
-                              "https://cdn.pixabay.com/photo/2015/05/17/10/51/facebook-770688_960_720.png"),
-                        ),
-                      ),
-                      FloatingActionButton(
-                        onPressed: () {},
-                        mini: true,
-                        elevation: 0,
-                        child: Image(
-                          image: NetworkImage(
-                              "https://cdn.pixabay.com/photo/2014/04/03/11/53/twitter-312464_960_720.png"),
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "DON'T HAVE AN ACCOUNT? ",
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      "SIGN UP",
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: Color(0XFFFF4891),
-                          fontWeight: FontWeight.w700),
-                    )
-                  ],
-                )
-              ],
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              ),
             ),
           ),
+        ),
+      ),
+      body: GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return SecondPage();
+          }));
+        },
+        child: Hero(
+          tag: "pp",
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Container(
+              width: 100,
+              height: 100,
+              child: Image(
+                fit: BoxFit.cover,
+                image: AssetImage("assets/logo.png"),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.red[50],
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text(
+          "Flutter 25 26 30",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: Hero(
+              tag: "pp",
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  child: Image(
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/logo.png"),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  ColorfulButton(Colors.pink, Colors.blue, Icons.adb),
+                  ColorfulButton(Colors.amber, Colors.blue, Icons.people),
+                  ColorfulButton(Colors.green, Colors.amber, Icons.computer),
+                  ColorfulButton(
+                      Colors.blue, Colors.pink, Icons.perm_contact_calendar),
+                ],
+              ),
+            ),
+          )
         ],
+      ),
+    );
+  }
+}
+
+class ColorfulButton extends StatefulWidget {
+  Color mainColor, secondColor;
+  IconData iconData;
+
+  @override
+  _ColorfulButtonState createState() =>
+      _ColorfulButtonState(mainColor, secondColor, iconData);
+
+  ColorfulButton(this.mainColor, this.secondColor, this.iconData);
+}
+
+class _ColorfulButtonState extends State<ColorfulButton> {
+  bool isPressed = false;
+  Color mainColor, secondColor;
+  IconData iconData;
+
+  _ColorfulButtonState(this.mainColor, this.secondColor, this.iconData);
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.rotate(
+      angle: pi / 4,
+      child: GestureDetector(
+        onTapDown: (details) {
+          setState(() {
+            isPressed = !isPressed;
+          });
+        },
+        onTapUp: (details) {
+          setState(() {
+            isPressed = !isPressed;
+          });
+        },
+        onTapCancel: () {
+          setState(() {
+            isPressed = !isPressed;
+          });
+        },
+        child: Material(
+          borderRadius: BorderRadius.circular(25),
+          elevation: (isPressed) ? 5 : 10,
+          shadowColor: (isPressed) ? secondColor : mainColor,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Container(
+              child: Stack(
+                children: <Widget>[
+                  SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: Material(
+                      borderRadius: BorderRadius.circular(15),
+                      color: (isPressed) ? secondColor : mainColor,
+                      child: Transform.rotate(
+                        angle: -pi / 4,
+                        child: Icon(
+                          iconData,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(30, 30),
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(25),
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(-30, 30),
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(25),
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(-30, -30),
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(25),
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(30, -30),
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(25),
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
