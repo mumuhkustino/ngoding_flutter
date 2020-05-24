@@ -1,76 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 // import 'package:qrscan/qrscan.dart' as scanner;
 // import 'package:simple_permissions/simple_permissions.dart';
 // import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  String data = "QR Code Data";
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        appBar: AppBar(
+          title: Text("Flutter 31 35"),
+        ),
+        body: ListView(
           children: <Widget>[
             Center(
-              child: QrImage(
-                version: 6,
-                backgroundColor: Colors.limeAccent,
-                foregroundColor: Colors.black,
-                errorCorrectionLevel: QrErrorCorrectLevel.M,
-                padding: EdgeInsets.all(30),
-                size: 300,
-                data: "Test Baca QR Code",
+              child: ShaderMask(
+                shaderCallback: (rectangle) {
+                  return LinearGradient(
+                          colors: [Colors.black, Colors.transparent],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter)
+                      .createShader(Rect.fromLTRB(
+                          0, 0, rectangle.width, rectangle.height));
+                },
+                blendMode: BlendMode.dstIn,
+                child: Image(width: 300, image: AssetImage("assets/logo.png")),
               ),
             ),
-            Text(
-              data,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-            RaisedButton(
-                child: Text("Scan QR Code"),
-                onPressed: () {
-                  // scanQR();
-                })
+            Center(
+              child: ClipPath(
+                clipper: MyClipper(),
+                child: Image(width: 300, image: AssetImage("assets/logo.png")),
+              ),
+            )
           ],
         ),
       ),
     );
   }
+}
 
-  /* void scanQR() async {
-    bool result = await SimplePermissions.checkPermission(Permission.Camera);
-    PermissionStatus status = PermissionStatus.notDetermined;
-    if (!result) {
-      status = await SimplePermissions.requestPermission(Permission.Camera);
-    }
+class MyClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
 
-    if (result || status == PermissionStatus.authorized) {
-      String scanResult = await scanner.scan();
-      setState(() {
-        data = scanResult;
-      });
-    }
-  } */
+    path.lineTo(0, size.height);
+    path.quadraticBezierTo(
+        size.width / 2, size.height * 0.2, size.width, size.height);
+    path.lineTo(size.width, 0);
 
-  // void scanQR() async {
-  //   final  PermissionHandler _permissionHandler = PermissionHandler();
-  //   var result =
-  //       await _permissionHandler.requestPermissions([PermissionGroup.camera]);
-  //   if (result[PermissionGroup.camera] == PermissionStatus.granted) {
-  //     String scanResult = await scan();
-  //     setState(() {
-  //       data = scanResult;
-  //     });
-  //   }
-  // }
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
