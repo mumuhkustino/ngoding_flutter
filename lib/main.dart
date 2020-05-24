@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 // import 'package:qrscan/qrscan.dart' as scanner;
 // import 'package:simple_permissions/simple_permissions.dart';
@@ -5,58 +7,94 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  MyApp({Key key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  AudioPlayer audioPlayer;
+  String duration = "00:00:00";
+  String url;
+
+  _MyAppState() {
+    audioPlayer = AudioPlayer();
+    audioPlayer.onAudioPositionChanged.listen((_duration) {
+      setState(() {
+        duration = _duration.toString();
+      });
+    });
+    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
+  }
+
+  void playSound(String url) async {
+    await audioPlayer.play(url);
+  }
+
+  void playSeekSound(String url, int second) async {
+    await audioPlayer.seek(Duration(seconds: second));
+    await audioPlayer.play(url);
+  }
+
+  void pauseSound() async {
+    await audioPlayer.pause();
+  }
+
+  void stopSound() async {
+    await audioPlayer.stop();
+  }
+
+  void resumeSound() async {
+    await audioPlayer.resume();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Flutter 31 35"),
-        ),
-        body: ListView(
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text("Music and Font"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Center(
-              child: ShaderMask(
-                shaderCallback: (rectangle) {
-                  return LinearGradient(
-                          colors: [Colors.black, Colors.transparent],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter)
-                      .createShader(Rect.fromLTRB(
-                          0, 0, rectangle.width, rectangle.height));
-                },
-                blendMode: BlendMode.dstIn,
-                child: Image(width: 300, image: AssetImage("assets/logo.png")),
-              ),
+            RaisedButton(
+              onPressed: () {
+                playSound(url);
+              },
+              child: Text("Play"),
             ),
-            Center(
-              child: ClipPath(
-                clipper: MyClipper(),
-                child: Image(width: 300, image: AssetImage("assets/logo.png")),
-              ),
+            RaisedButton(
+              onPressed: () {
+                pauseSound();
+              },
+              child: Text("Pause"),
+            ),
+            RaisedButton(
+              onPressed: () {
+                stopSound();
+              },
+              child: Text("Stop"),
+            ),
+            RaisedButton(
+              onPressed: () {
+                resumeSound();
+              },
+              child: Text("Resume"),
+            ),
+            Text(
+              duration,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  fontFeatures: [FontFeature.enable("smcp")]),
             )
           ],
         ),
       ),
-    );
+    ));
   }
-}
-
-class MyClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-
-    path.lineTo(0, size.height);
-    path.quadraticBezierTo(
-        size.width / 2, size.height * 0.2, size.width, size.height);
-    path.lineTo(size.width, 0);
-
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
