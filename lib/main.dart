@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 // import 'package:qrscan/qrscan.dart' as scanner;
 // import 'package:simple_permissions/simple_permissions.dart';
