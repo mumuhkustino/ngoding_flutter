@@ -1,10 +1,8 @@
 import 'dart:ui';
-
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-// import 'package:qrscan/qrscan.dart' as scanner;
-// import 'package:simple_permissions/simple_permissions.dart';
-// import 'package:permission_handler/permission_handler.dart';
+import 'user_method_post.dart';
+
+import 'user_model.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,40 +14,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  AudioPlayer audioPlayer;
-  String duration = "00:00:00";
-  String url;
-
-  _MyAppState() {
-    audioPlayer = AudioPlayer();
-    audioPlayer.onAudioPositionChanged.listen((_duration) {
-      setState(() {
-        duration = _duration.toString();
-      });
-    });
-    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
-  }
-
-  void playSound(String url) async {
-    await audioPlayer.play(url);
-  }
-
-  void playSeekSound(String url, int second) async {
-    await audioPlayer.seek(Duration(seconds: second));
-    await audioPlayer.play(url);
-  }
-
-  void pauseSound() async {
-    await audioPlayer.pause();
-  }
-
-  void stopSound() async {
-    await audioPlayer.stop();
-  }
-
-  void resumeSound() async {
-    await audioPlayer.resume();
-  }
+  UserPostResult postResult = null;
+  User user = null;
+  String result = "Empty Data";
 
   @override
   Widget build(BuildContext context) {
@@ -62,37 +29,47 @@ class _MyAppState extends State<MyApp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            Text((postResult != null)
+                ? postResult.id +
+                    " | " +
+                    postResult.name +
+                    " | " +
+                    postResult.job +
+                    " | " +
+                    postResult.createdAt
+                : "Empty Data"),
             RaisedButton(
               onPressed: () {
-                playSound(url);
+                UserPostResult.connectToAPI("Stack", "Overflow").then((value) {
+                  postResult = value;
+                  setState(() {});
+                });
               },
-              child: Text("Play"),
+              child: Text("POST"),
             ),
+            Text((user != null) ? user.id + " | " + user.name : "Empty Data"),
             RaisedButton(
               onPressed: () {
-                pauseSound();
+                User.connectToAPI("3").then((value) {
+                  user = value;
+                  setState(() {});
+                });
               },
-              child: Text("Pause"),
+              child: Text("GET"),
             ),
+            Text(result),
             RaisedButton(
               onPressed: () {
-                stopSound();
+                User.getUsers("1").then((value) {
+                  result = "";
+                  for (int i = 0; i < value.length; i++) {
+                    result = result + "[ " + value[i].name + " ] ";
+                  }
+                  setState(() {});
+                });
               },
-              child: Text("Stop"),
+              child: Text("GET LIST"),
             ),
-            RaisedButton(
-              onPressed: () {
-                resumeSound();
-              },
-              child: Text("Resume"),
-            ),
-            Text(
-              duration,
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  fontFeatures: [FontFeature.enable("smcp")]),
-            )
           ],
         ),
       ),
