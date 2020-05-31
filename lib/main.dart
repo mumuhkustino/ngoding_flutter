@@ -1,8 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'user_method_post.dart';
-
-import 'user_model.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,62 +11,169 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  UserPostResult postResult = null;
-  User user = null;
-  String result = "Empty Data";
+  bool isON = false;
+  bool isClick = false;
+  double flexPadding = 5;
+
+  Widget myWidget = Container(
+    width: 200,
+    height: 100,
+    decoration: BoxDecoration(
+        color: Colors.red, border: Border.all(color: Colors.black, width: 3)),
+  );
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text("HTTP Request"),
+        title: Text("Switch and Animated"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text((postResult != null)
-                ? postResult.id +
-                    " | " +
-                    postResult.name +
-                    " | " +
-                    postResult.job +
-                    " | " +
-                    postResult.createdAt
-                : "Empty Data"),
-            RaisedButton(
-              onPressed: () {
-                UserPostResult.connectToAPI("Stack", "Overflow").then((value) {
-                  postResult = value;
-                  setState(() {});
-                });
-              },
-              child: Text("POST"),
+            AnimatedSwitcher(
+              child: myWidget,
+              duration: Duration(seconds: 1),
+              transitionBuilder: (child, animation) => RotationTransition(
+                turns: animation,
+                child: child,
+              ),
             ),
-            Text((user != null) ? user.id + " | " + user.name : "Empty Data"),
-            RaisedButton(
-              onPressed: () {
-                User.connectToAPI("3").then((value) {
-                  user = value;
-                  setState(() {});
-                });
-              },
-              child: Text("GET"),
-            ),
-            Text(result),
-            RaisedButton(
-              onPressed: () {
-                User.getUsers("1").then((value) {
-                  result = "";
-                  for (int i = 0; i < value.length; i++) {
-                    result = result + "[ " + value[i].name + " ] ";
-                  }
-                  setState(() {});
-                });
-              },
-              child: Text("GET LIST"),
-            ),
+            Switch(
+                activeColor: Colors.green,
+                inactiveThumbColor: Colors.red,
+                inactiveTrackColor: Colors.red[200],
+                value: isON,
+                onChanged: (newValue) {
+                  isON = newValue;
+                  setState(() {
+                    if (isON)
+                      myWidget = Container(
+                        key: ValueKey(2),
+                        width: 200,
+                        height: 100,
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            border: Border.all(color: Colors.black, width: 3)),
+                      );
+                    /* myWidget = SizedBox(
+                        width: 200,
+                        height: 100,
+                        child: Center(
+                          child: Text(
+                            "Switch: ON",
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20),
+                          ),
+                        ),
+                      ); */
+                    else
+                      myWidget = Container(
+                        key: ValueKey(1),
+                        width: 200,
+                        height: 100,
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            border: Border.all(color: Colors.black, width: 3)),
+                      );
+                  });
+                }),
+            Flexible(
+                flex: 1,
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                        flex: 1,
+                        child: AnimatedPadding(
+                          duration: Duration(seconds: 1),
+                          padding: EdgeInsets.all(flexPadding),
+                          child: GestureDetector(
+                            onTap: () {
+                              isClick = !isClick;
+                              setState(() {
+                                if (isClick)
+                                  flexPadding = 20;
+                                else
+                                  flexPadding = 5;
+                              });
+                            },
+                            child: Container(
+                              color: Colors.red,
+                            ),
+                          ),
+                        )),
+                    Flexible(
+                        flex: 1,
+                        child: AnimatedPadding(
+                          duration: Duration(seconds: 1),
+                          padding: EdgeInsets.all(flexPadding),
+                          child: GestureDetector(
+                            onTap: () {
+                              isClick = !isClick;
+                              setState(() {
+                                if (isClick)
+                                  flexPadding = 30;
+                                else
+                                  flexPadding = 5;
+                              });
+                            },
+                            child: Container(
+                              color: Colors.green,
+                            ),
+                          ),
+                        )),
+                  ],
+                )),
+            Flexible(
+                flex: 1,
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                        flex: 1,
+                        child: AnimatedPadding(
+                          duration: Duration(seconds: 1),
+                          padding: EdgeInsets.all(flexPadding),
+                          child: GestureDetector(
+                            onTap: () {
+                              isClick = !isClick;
+                              setState(() {
+                                if (isClick)
+                                  flexPadding = 50;
+                                else
+                                  flexPadding = 5;
+                              });
+                            },
+                            child: Container(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        )),
+                    Flexible(
+                        flex: 1,
+                        child: AnimatedPadding(
+                          duration: Duration(seconds: 1),
+                          padding: EdgeInsets.all(flexPadding),
+                          child: GestureDetector(
+                            onTap: () {
+                              isClick = !isClick;
+                              setState(() {
+                                if (isClick)
+                                  flexPadding = 10;
+                                else
+                                  flexPadding = 5;
+                              });
+                            },
+                            child: Container(
+                              color: Colors.yellow,
+                            ),
+                          ),
+                        )),
+                  ],
+                ))
           ],
         ),
       ),
