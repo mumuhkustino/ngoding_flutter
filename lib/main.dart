@@ -24,17 +24,19 @@ class MyApp extends StatelessWidget {
           )
         ],
         child: Scaffold(
-          floatingActionButton: Consumer<Money>(
-            builder: (context, money, _) => Consumer<Cart>(
-              builder: (context, cart, _) => FloatingActionButton(
-                onPressed: () {
-                  if (money.balance >= 500) {
-                    cart.quantity += 1;
-                    money.balance -= 500;
-                  }
-                },
-                child: Icon(Icons.add_shopping_cart),
-                backgroundColor: Colors.purple,
+          floatingActionButton: Consumer<ApplicationColor>(
+            builder: (context, applicationColor, _) => Consumer<Money>(
+              builder: (context, money, _) => Consumer<Cart>(
+                builder: (context, cart, _) => FloatingActionButton(
+                  onPressed: () {
+                    if (money.balance >= 500) {
+                      cart.quantity += 1;
+                      money.balance -= 500;
+                    }
+                  },
+                  child: Icon(Icons.add_shopping_cart),
+                  backgroundColor: applicationColor.color,
+                ),
               ),
             ),
           ),
@@ -85,57 +87,63 @@ class MyApp extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text("Balance"),
-                    Container(
-                      child: Align(
+                    Consumer<ApplicationColor>(
+                      builder: (context, applicationColor, _) => Container(
+                        child: Align(
                           alignment: Alignment.centerRight,
                           child: Consumer<Money>(
                             builder: (context, money, _) => Text(
                               money.balance.toString(),
                               style: TextStyle(
-                                  color: Colors.purple,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w700),
                             ),
-                          )),
-                      height: 30,
-                      width: 150,
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.purple[100],
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.purple, width: 2),
+                          ),
+                        ),
+                        height: 30,
+                        width: 150,
+                        margin: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: applicationColor.color, width: 2),
+                        ),
                       ),
                     )
                   ],
                 ),
-                Container(
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Consumer<Cart>(
-                        builder: (context, cart, _) => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              "Apple (500 x " + cart.quantity.toString() + ")",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              (cart.quantity * 500).toString(),
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      )),
-                  height: 30,
-                  margin: EdgeInsets.all(5),
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.purple, width: 2),
+                Consumer<ApplicationColor>(
+                  builder: (context, applicationColor, _) => Container(
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Consumer<Cart>(
+                          builder: (context, cart, _) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "Apple (500 x " +
+                                    cart.quantity.toString() +
+                                    ")",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                (cart.quantity * 500).toString(),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        )),
+                    height: 30,
+                    margin: EdgeInsets.all(5),
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: applicationColor.color, width: 2),
+                    ),
                   ),
                 )
               ],
