@@ -1,155 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:ngoding_flutter/application_color.dart';
-import 'package:ngoding_flutter/cart_model.dart';
-import 'package:ngoding_flutter/money_model.dart';
-import 'package:provider/provider.dart';
+import 'package:ngoding_flutter/color_bloc.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ColorBloc colorBloc = ColorBloc();
+
+  @override
+  void dispose() {
+    colorBloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // home: ChangeNotifierProvider<ApplicationColor>( // Single Provider
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<Money>(
-            builder: (context) => Money(),
-          ),
-          ChangeNotifierProvider<Cart>(
-            builder: (context) => Cart(),
-          ),
-          ChangeNotifierProvider<ApplicationColor>(
-            builder: (context) => ApplicationColor(),
-          )
-        ],
-        child: Scaffold(
-          floatingActionButton: Consumer<ApplicationColor>(
-            builder: (context, applicationColor, _) => Consumer<Money>(
-              builder: (context, money, _) => Consumer<Cart>(
-                builder: (context, cart, _) => FloatingActionButton(
-                  onPressed: () {
-                    if (money.balance >= 500) {
-                      cart.quantity += 1;
-                      money.balance -= 500;
-                    }
-                  },
-                  child: Icon(Icons.add_shopping_cart),
-                  backgroundColor: applicationColor.color,
-                ),
-              ),
+      home: Scaffold(
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            FloatingActionButton(
+              onPressed: () {
+                colorBloc.eventSink.add(ColorEvent.to_amber);
+              },
+              backgroundColor: Colors.amber,
             ),
-          ),
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: Consumer<ApplicationColor>(
-              builder: (context, applicationColor, _) => Text(
-                "Provider State & Multi Provider",
-                style: TextStyle(color: applicationColor.color),
-              ),
+            SizedBox(
+              width: 10,
             ),
-          ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Consumer<ApplicationColor>(
-                  builder: (context, applicationColor, _) => AnimatedContainer(
-                    margin: EdgeInsets.all(5),
-                    width: 100,
-                    height: 100,
-                    color: applicationColor.color,
-                    duration: Duration(milliseconds: 500),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      child: Text("AB"),
-                    ),
-                    Consumer<ApplicationColor>(
-                      builder: (context, applicationColor, _) => Switch(
-                        value: applicationColor.isLightBlue,
-                        onChanged: (newValue) {
-                          applicationColor.isLightBlue = newValue;
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      child: Text("LBF"),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("Balance"),
-                    Consumer<ApplicationColor>(
-                      builder: (context, applicationColor, _) => Container(
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Consumer<Money>(
-                            builder: (context, money, _) => Text(
-                              money.balance.toString(),
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                        ),
-                        height: 30,
-                        width: 150,
-                        margin: EdgeInsets.all(5),
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: applicationColor.color, width: 2),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Consumer<ApplicationColor>(
-                  builder: (context, applicationColor, _) => Container(
-                    child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Consumer<Cart>(
-                          builder: (context, cart, _) => Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "Apple (500 x " +
-                                    cart.quantity.toString() +
-                                    ")",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                (cart.quantity * 500).toString(),
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ],
-                          ),
-                        )),
-                    height: 30,
-                    margin: EdgeInsets.all(5),
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: applicationColor.color, width: 2),
-                    ),
-                  ),
-                )
-              ],
+            FloatingActionButton(
+              onPressed: () {
+                colorBloc.eventSink.add(ColorEvent.to_light_blue);
+              },
+              backgroundColor: Colors.lightBlue,
             ),
-          ),
+          ],
         ),
+        appBar: AppBar(
+          title: Text("BLoC without Library"),
+        ),
+        body: Center(
+            child: StreamBuilder(
+          stream: colorBloc.stateStream,
+          initialData: Colors.amber,
+          builder: (context, snapshot) {
+            return AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              width: 100,
+              height: 100,
+              color: snapshot.data,
+            );
+          },
+        )),
       ),
     );
   }
