@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text("Music and Font"),
+        title: Text("HTTP Request"),
       ),
       body: Center(
         child: Column(
